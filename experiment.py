@@ -13,6 +13,6 @@ def make_list():
 		underline_list.append(wl1[i])        #take 16 random words from wl1 and give them to show_list 
 	for o in rannum2:
 		normal_list.append(wl2[o])
-		
-
-win = visual.Window()
+make_list()		
+print(normal_list)
+print(underline_list)
