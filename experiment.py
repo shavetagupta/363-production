@@ -70,6 +70,7 @@ if event.waitKeys(keyList=['space']):
 f.close()
 
 show = visual.TextStim(win, text = 'Thank you for participating.', color = 'white', height = 0.05, pos = (0.5,0.0))
+win.draw()
 win.flip()
 core.wait(5.0)
 win.close()
