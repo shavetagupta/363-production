@@ -18,7 +18,6 @@ def make_test():
 	random.shuffle(test_list)
 
 partName = input('Input participant codename:')
-gender = input ('What is your gender? (M/F/O/NA)')
 
 win = visual.Window([600, 600],color = 'black', allowGUI = False)
 show = visual.TextStim(win, text = intro1, color = 'white', height = 0.05, pos = (0.5,0.0))
@@ -42,7 +41,7 @@ show = visual.TextStim(win, text = intro2, color = 'white', height = 0.05, pos =
 show.draw()
 win.flip()
 make_test()
-filename = 'results_' + partName + gender + '.csv'
+filename = 'results_' + partName + '.csv'
 f = open(filename,'a+')
 f.write("trial,word,list,assessment,identification\n")
 
@@ -67,17 +66,17 @@ if event.waitKeys(keyList=['space']):
 				f.write('read,false,rejection\n')
 			else:
 				f.write('distract,correct,rejection\n')
+
+show = visual.TextStim(win, text = "What is your gender? Please press \n \n-M for Male \n-F for Female \n-O for Other \n-R for Refuse to answer.", color = 'white', height = 0.05, pos = (0.5,0.0))
+show.draw()
+win.flip()
+Gender = event.waitKeys(keyList=['m','f','o','r'])
+f.write("Participant gender:" + str(Gender))
 f.close()
 
 show = visual.TextStim(win, text = 'Thank you for participating.', color = 'white', height = 0.05, pos = (0.5,0.0))
 show.draw()
 win.flip()
-core.wait(5.0)
-win.close()
-
-#cor_id
-#fal_id
-#cor_rej
-#fal_rej
-
-
+if event.getKeys() or core.wait(5.0):
+	win.close()
+	core.close()
