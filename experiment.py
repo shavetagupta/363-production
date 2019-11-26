@@ -44,7 +44,7 @@ win.flip()
 make_test()
 filename = 'results_' + partName + gender + '.csv'
 f = open(filename,'a+')
-f.write("trial_num,word,origin,assessment\n")
+f.write("trial,word,list,assessment,identification\n")
 
 if event.waitKeys(keyList=['space']):
 	for i in range(0,40):
@@ -55,22 +55,22 @@ if event.waitKeys(keyList=['space']):
 		press = event.waitKeys(keyList = ['y','n'])
 		if 'y' in press:
 			if test_list[i] in silent_list:
-				f.write("silent,cor_id\n")
+				f.write("silent,correct,identification\n")
 			elif test_list[i] in read_list:
-				f.write('read,cor_id\n')	
+				f.write('read,correct,identification\n')	
 			else:
-				f.write('distract,fal_id\n')
+				f.write('distract,false,identification\n')
 		else:
 			if test_list[i] in silent_list:
-				f.write('silent,fal_rej\n')
+				f.write('silent,false,rejection\n')
 			elif test_list[i] in read_list:
-				f.write('read,fal_rej\n')
+				f.write('read,false,rejection\n')
 			else:
-				f.write('distract,cor_rej\n')
+				f.write('distract,correct,rejection\n')
 f.close()
 
 show = visual.TextStim(win, text = 'Thank you for participating.', color = 'white', height = 0.05, pos = (0.5,0.0))
-win.draw()
+show.draw()
 win.flip()
 core.wait(5.0)
 win.close()
