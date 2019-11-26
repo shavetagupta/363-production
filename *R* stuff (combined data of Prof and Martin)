@@ -1,0 +1,464 @@
+
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> if (identical(getOption('pager'), file.path(R.home('bin'), 'pager'))) options(pager='cat') # rather take the ESS one 
+> options(STERM='iESS', str.dendrogram.last="'", editor='emacsclient', show.error.locations=TRUE)
+> read.csv("results_britt.csv")
+                      trial       word     list assessment identification
+1                         1     beauty distract    correct      rejection
+2                         2    uniform     read    correct identification
+3                         3   industry distract      false identification
+4                         4    capital distract      false identification
+5                         5     dinner distract    correct      rejection
+6                         6      ocean     read    correct identification
+7                         7    theatre   silent    correct identification
+8                         8    package     read    correct identification
+9                         9    clothes distract    correct      rejection
+10                       10 foundation distract    correct      rejection
+11                       11    teacher     read      false      rejection
+12                       12      queen distract    correct      rejection
+13                       13     lesson   silent    correct identification
+14                       14     garden distract    correct      rejection
+15                       15   merchant distract    correct      rejection
+16                       16   vacation distract    correct      rejection
+17                       17    machine   silent      false      rejection
+18                       18      glass distract    correct      rejection
+19                       19    partner distract    correct      rejection
+20                       20     minute   silent      false      rejection
+21                       21     kettle distract    correct      rejection
+22                       22      judge     read      false      rejection
+23                       23     forest   silent    correct identification
+24                       24   trousers     read    correct identification
+25                       25    leather   silent      false      rejection
+26                       26     resort distract    correct      rejection
+27                       27      laugh distract    correct      rejection
+28                       28     stream distract    correct      rejection
+29                       29    address     read    correct identification
+30                       30    century   silent      false      rejection
+31                       31    factory   silent    correct identification
+32                       32     winter distract    correct      rejection
+33                       33     ticket     read    correct identification
+34                       34   entrance distract      false identification
+35                       35   election     read    correct identification
+36                       36     amount   silent      false      rejection
+37                       37     school distract    correct      rejection
+38                       38     market distract    correct      rejection
+39                       39    traffic   silent    correct identification
+40                       40  afternoon     read    correct identification
+41 Participant gender:['m']                                              
+> d = read.csv("results_britt.csv")
+> d = d[1:40,]
+> d
+   trial       word     list assessment identification
+1      1     beauty distract    correct      rejection
+2      2    uniform     read    correct identification
+3      3   industry distract      false identification
+4      4    capital distract      false identification
+5      5     dinner distract    correct      rejection
+6      6      ocean     read    correct identification
+7      7    theatre   silent    correct identification
+8      8    package     read    correct identification
+9      9    clothes distract    correct      rejection
+10    10 foundation distract    correct      rejection
+11    11    teacher     read      false      rejection
+12    12      queen distract    correct      rejedction
+13    13     lesson   silent    correct identification
+14    14     garden distract    correct      rejection
+15    15   merchant distract    correct      rejection
+16    16   vacation distract    correct      rejection
+17    17    machine   silent      false      rejection
+18    18      glass distract    correct      rejection
+19    19    partner distract    correct      rejection
+20    20     minute   silent      false      rejection
+21    21     kettle distract    correct      rejection
+22    22      judge     read      false      rejection
+23    23     forest   silent    correct identification
+24    24   trousers     read    correct identification
+25    25    leather   silent      false      rejection
+26    26     resort distract    correct      rejection
+27    27      laugh distract    correct      rejection
+28    28     stream distract    correct      rejection
+29    29    address     read    correct identification
+30    30    century   silent      false      rejection
+31    31    factory   silent    correct identification
+32    32     winter distract    correct      rejection
+33    33     ticket     read    correct identification
+34    34   entrance distract      false identification
+35    35   election     read    correct identification
+36    36     amount   silent      false      rejection
+37    37     school distract    correct      rejection
+38    38     market distract    correct      rejection
+39    39    traffic   silent    correct identification
+40    40  afternoon     read    correct identification
+> d$assessment == "correct"
+ [1]  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE
+[13]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE  TRUE
+[25] FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE
+[37]  TRUE  TRUE  TRUE  TRUE
+> sum(d$assessment == "correct")
+[1] 30
+> sum(d[d$list == "silent",assessment == "correct"])
+Error in `[.data.frame`(d, d$list == "silent", assessment == "correct") : 
+  object 'assessment' not found
+> with(d,tapply(assessment,.(list),mean))
+Error in .(list) : could not find function "."
+> with(d,tapply(assessment,(list),mean))
+         distract     read   silent 
+      NA       NA       NA       NA 
+Warning messages:
+1: In mean.default(X[[i]], ...) :
+  argument is not numeric or logical: returning NA
+2: In mean.default(X[[i]], ...) :
+  argument is not numeric or logical: returning NA
+3: In mean.default(X[[i]], ...) :
+  argument is not numeric or logical: returning NA
+> d[d$list == "silent",]
+   trial    word   list assessment identification
+7      7 theatre silent    correct identification
+13    13  lesson silent    correct identification
+17    17 machine silent      false      rejection
+20    20  minute silent      false      rejection
+23    23  forest silent    correct identification
+25    25 leather silent      false      rejection
+30    30 century silent      false      rejection
+31    31 factory silent    correct identification
+36    36  amount silent      false      rejection
+39    39 traffic silent    correct identification
+> d$assessment[d$list == "silent",]
+Error in `[.default`(d$assessment, d$list == "silent", ) : 
+  incorrect number of dimensions
+> d$assessment[d$list == "silent"]
+ [1] correct correct false   false   correct false   false   correct false  
+[10] correct
+Levels:  correct false
+> d$assessment[d$list == "silent"] == "correct"
+ [1]  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE
+> sum(d$assessment[d$list == "silent"] == "correct")
+[1] 5
+> sum(d$assessment[d$list == "read"] == "correct")
+[1] 8
+> sum(d$assessment[d$list == "read"] == "correct")/length(d$list == "read")
+[1] 0.2
+> sum(d$assessment[d$list == "read"] == "correct")/sum(d$list == "read")
+[1] 0.8
+> sum(d$assessment[d$list == "silent"] == "correct")/sum(d$list == "silent")
+[1] 0.5
+> d2 = read.csv("results_martin.csv")
+> d2[1:40,]
+   trial       word     list assessment identification
+1      1      wagon   silent    correct identification
+2      2     answer     read    correct identification
+3      3     kettle distract    correct      rejection
+4      4    factory   silent    correct identification
+5      5      ocean     read    correct identification
+6      6    teacher     read    correct identification
+7      7      glass distract    correct      rejection
+8      8   industry distract    correct      rejection
+9      9     resort distract    correct      rejection
+10    10    uniform     read    correct identification
+11    11      judge     read    correct identification
+12    12   vacation distract    correct      rejection
+13    13     lesson   silent      false      rejection
+14    14  afternoon     read    correct identification
+15    15     beauty distract    correct      rejection
+16    16    captain     read    correct identification
+17    17    account     read    correct identification
+18    18     market distract    correct      rejection
+19    19  education   silent    correct identification
+20    20     dinner distract    correct      rejection
+21    21    traffic   silent    correct identification
+22    22     debate     read    correct identification
+23    23     school distract      false identification
+24    24 foundation distract    correct      rejection
+25    25     stream distract    correct      rejection
+26    26    clothes distract    correct      rejection
+27    27     forest   silent    correct identification
+28    28      laugh distract    correct      rejection
+29    29    partner distract    correct      rejection
+30    30     winter distract    correct      rejection
+31    31    leather   silent    correct identification
+32    32    station   silent      false      rejection
+33    33     garden distract    correct      rejection
+34    34      queen distract    correct      rejection
+35    35   merchant distract    correct      rejection
+36    36   entrance distract    correct      rejection
+37    37  furniture     read    correct identification
+38    38     minute   silent    correct identification
+39    39    theatre   silent      false      rejection
+40    40    capital distract    correct      rejection
+> d2
+                      trial       word     list assessment identification
+1                         1      wagon   silent    correct identification
+2                         2     answer     read    correct identification
+3                         3     kettle distract    correct      rejection
+4                         4    factory   silent    correct identification
+5                         5      ocean     read    correct identification
+6                         6    teacher     read    correct identification
+7                         7      glass distract    correct      rejection
+8                         8   industry distract    correct      rejection
+9                         9     resort distract    correct      rejection
+10                       10    uniform     read    correct identification
+11                       11      judge     read    correct identification
+12                       12   vacation distract    correct      rejection
+13                       13     lesson   silent      false      rejection
+14                       14  afternoon     read    correct identification
+15                       15     beauty distract    correct      rejection
+16                       16    captain     read    correct identification
+17                       17    account     read    correct identification
+18                       18     market distract    correct      rejection
+19                       19  education   silent    correct identification
+20                       20     dinner distract    correct      rejection
+21                       21    traffic   silent    correct identification
+22                       22     debate     read    correct identification
+23                       23     school distract      false identification
+24                       24 foundation distract    correct      rejection
+25                       25     stream distract    correct      rejection
+26                       26    clothes distract    correct      rejection
+27                       27     forest   silent    correct identification
+28                       28      laugh distract    correct      rejection
+29                       29    partner distract    correct      rejection
+30                       30     winter distract    correct      rejection
+31                       31    leather   silent    correct identification
+32                       32    station   silent      false      rejection
+33                       33     garden distract    correct      rejection
+34                       34      queen distract    correct      rejection
+35                       35   merchant distract    correct      rejection
+36                       36   entrance distract    correct      rejection
+37                       37  furniture     read    correct identification
+38                       38     minute   silent    correct identification
+39                       39    theatre   silent      false      rejection
+40                       40    capital distract    correct      rejection
+41 Participant gender:['r']                                              
+> d2 = d2[1:40,]
+> d
+   trial       word     list assessment identification
+1      1     beauty distract    correct      rejection
+2      2    uniform     read    correct identification
+3      3   industry distract      false identification
+4      4    capital distract      false identification
+5      5     dinner distract    correct      rejection
+6      6      ocean     read    correct identification
+7      7    theatre   silent    correct identification
+8      8    package     read    correct identification
+9      9    clothes distract    correct      rejection
+10    10 foundation distract    correct      rejection
+11    11    teacher     read      false      rejection
+12    12      queen distract    correct      rejection
+13    13     lesson   silent    correct identification
+14    14     garden distract    correct      rejection
+15    15   merchant distract    correct      rejection
+16    16   vacation distract    correct      rejection
+17    17    machine   silent      false      rejection
+18    18      glass distract    correct      rejection
+19    19    partner distract    correct      rejection
+20    20     minute   silent      false      rejection
+21    21     kettle distract    correct      rejection
+22    22      judge     read      false      rejection
+23    23     forest   silent    correct identification
+24    24   trousers     read    correct identification
+25    25    leather   silent      false      rejection
+26    26     resort distract    correct      rejection
+27    27      laugh distract    correct      rejection
+28    28     stream distract    correct      rejection
+29    29    address     read    correct identification
+30    30    century   silent      false      rejection
+31    31    factory   silent    correct identification
+32    32     winter distract    correct      rejection
+33    33     ticket     read    correct identification
+34    34   entrance distract      false identification
+35    35   election     read    correct identification
+36    36     amount   silent      false      rejection
+37    37     school distract    correct      rejection
+38    38     market distract    correct      rejection
+39    39    traffic   silent    correct identification
+40    40  afternoon     read    correct identification
+> d2
+   trial       word     list assessment identification
+1      1      wagon   silent    correct identification
+2      2     answer     read    correct identification
+3      3     kettle distract    correct      rejection
+4      4    factory   silent    correct identification
+5      5      ocean     read    correct identification
+6      6    teacher     read    correct identification
+7      7      glass distract    correct      rejection
+8      8   industry distract    correct      rejection
+9      9     resort distract    correct      rejection
+10    10    uniform     read    correct identification
+11    11      judge     read    correct identification
+12    12   vacation distract    correct      rejection
+13    13     lesson   silent      false      rejection
+14    14  afternoon     read    correct identification
+15    15     beauty distract    correct      rejection
+16    16    captain     read    correct identification
+17    17    account     read    correct identification
+18    18     market distract    correct      rejection
+19    19  education   silent    correct identification
+20    20     dinner distract    correct      rejection
+21    21    traffic   silent    correct identification
+22    22     debate     read    correct identification
+23    23     school distract      false identification
+24    24 foundation distract    correct      rejection
+25    25     stream distract    correct      rejection
+26    26    clothes distract    correct      rejection
+27    27     forest   silent    correct identification
+28    28      laugh distract    correct      rejection
+29    29    partner distract    correct      rejection
+30    30     winter distract    correct      rejection
+31    31    leather   silent    correct identification
+32    32    station   silent      false      rejection
+33    33     garden distract    correct      rejection
+34    34      queen distract    correct      rejection
+35    35   merchant distract    correct      rejection
+36    36   entrance distract    correct      rejection
+37    37  furniture     read    correct identification
+38    38     minute   silent    correct identification
+39    39    theatre   silent      false      rejection
+40    40    capital distract    correct      rejection
+> d$id <- "britt"
+> d
+   trial       word     list assessment identification    id
+1      1     beauty distract    correct      rejection britt
+2      2    uniform     read    correct identification britt
+3      3   industry distract      false identification britt
+4      4    capital distract      false identification britt
+5      5     dinner distract    correct      rejection britt
+6      6      ocean     read    correct identification britt
+7      7    theatre   silent    correct identification britt
+8      8    package     read    correct identification britt
+9      9    clothes distract    correct      rejection britt
+10    10 foundation distract    correct      rejection britt
+11    11    teacher     read      false      rejection britt
+12    12      queen distract    correct      rejection britt
+13    13     lesson   silent    correct identification britt
+14    14     garden distract    correct      rejection britt
+15    15   merchant distract    correct      rejection britt
+16    16   vacation distract    correct      rejection britt
+17    17    machine   silent      false      rejection britt
+18    18      glass distract    correct      rejection britt
+19    19    partner distract    correct      rejection britt
+20    20     minute   silent      false      rejection britt
+21    21     kettle distract    correct      rejection britt
+22    22      judge     read      false      rejection britt
+23    23     forest   silent    correct identification britt
+24    24   trousers     read    correct identification britt
+25    25    leather   silent      false      rejection britt
+26    26     resort distract    correct      rejection britt
+27    27      laugh distract    correct      rejection britt
+28    28     stream distract    correct      rejection britt
+29    29    address     read    correct identification britt
+30    30    century   silent      false      rejection britt
+31    31    factory   silent    correct identification britt
+32    32     winter distract    correct      rejection britt
+33    33     ticket     read    correct identification britt
+34    34   entrance distract      false identification britt
+35    35   election     read    correct identification britt
+36    36     amount   silent      false      rejection britt
+37    37     school distract    correct      rejection britt
+38    38     market distract    correct      rejection britt
+39    39    traffic   silent    correct identification britt
+40    40  afternoon     read    correct identification britt
+> d2$id = "martin"
+> alld = rbind(d,d2)
+> alld
+   trial       word     list assessment identification     id
+1      1     beauty distract    correct      rejection  britt
+2      2    uniform     read    correct identification  britt
+3      3   industry distract      false identification  britt
+4      4    capital distract      false identification  britt
+5      5     dinner distract    correct      rejection  britt
+6      6      ocean     read    correct identification  britt
+7      7    theatre   silent    correct identification  britt
+8      8    package     read    correct identification  britt
+9      9    clothes distract    correct      rejection  britt
+10    10 foundation distract    correct      rejection  britt
+11    11    teacher     read      false      rejection  britt
+12    12      queen distract    correct      rejection  britt
+13    13     lesson   silent    correct identification  britt
+14    14     garden distract    correct      rejection  britt
+15    15   merchant distract    correct      rejection  britt
+16    16   vacation distract    correct      rejection  britt
+17    17    machine   silent      false      rejection  britt
+18    18      glass distract    correct      rejection  britt
+19    19    partner distract    correct      rejection  britt
+20    20     minute   silent      false      rejection  britt
+21    21     kettle distract    correct      rejection  britt
+22    22      judge     read      false      rejection  britt
+23    23     forest   silent    correct identification  britt
+24    24   trousers     read    correct identification  britt
+25    25    leather   silent      false      rejection  britt
+26    26     resort distract    correct      rejection  britt
+27    27      laugh distract    correct      rejection  britt
+28    28     stream distract    correct      rejection  britt
+29    29    address     read    correct identification  britt
+30    30    century   silent      false      rejection  britt
+31    31    factory   silent    correct identification  britt
+32    32     winter distract    correct      rejection  britt
+33    33     ticket     read    correct identification  britt
+34    34   entrance distract      false identification  britt
+35    35   election     read    correct identification  britt
+36    36     amount   silent      false      rejection  britt
+37    37     school distract    correct      rejection  britt
+38    38     market distract    correct      rejection  britt
+39    39    traffic   silent    correct identification  britt
+40    40  afternoon     read    correct identification  britt
+41     1      wagon   silent    correct identification martin
+42     2     answer     read    correct identification martin
+43     3     kettle distract    correct      rejection martin
+44     4    factory   silent    correct identification martin
+45     5      ocean     read    correct identification martin
+46     6    teacher     read    correct identification martin
+47     7      glass distract    correct      rejection martin
+48     8   industry distract    correct      rejection martin
+49     9     resort distract    correct      rejection martin
+50    10    uniform     read    correct identification martin
+51    11      judge     read    correct identification martin
+52    12   vacation distract    correct      rejection martin
+53    13     lesson   silent      false      rejection martin
+54    14  afternoon     read    correct identification martin
+55    15     beauty distract    correct      rejection martin
+56    16    captain     read    correct identification martin
+57    17    account     read    correct identification martin
+58    18     market distract    correct      rejection martin
+59    19  education   silent    correct identification martin
+60    20     dinner distract    correct      rejection martin
+61    21    traffic   silent    correct identification martin
+62    22     debate     read    correct identification martin
+63    23     school distract      false identification martin
+64    24 foundation distract    correct      rejection martin
+65    25     stream distract    correct      rejection martin
+66    26    clothes distract    correct      rejection martin
+67    27     forest   silent    correct identification martin
+68    28      laugh distract    correct      rejection martin
+69    29    partner distract    correct      rejection martin
+70    30     winter distract    correct      rejection martin
+71    31    leather   silent    correct identification martin
+72    32    station   silent      false      rejection martin
+73    33     garden distract    correct      rejection martin
+74    34      queen distract    correct      rejection martin
+75    35   merchant distract    correct      rejection martin
+76    36   entrance distract    correct      rejection martin
+77    37  furniture     read    correct identification martin
+78    38     minute   silent    correct identification martin
+79    39    theatre   silent      false      rejection martin
+80    40    capital distract    correct      rejection martin
+> sum(alld$assessment[alld$list == "silent"] == "correct")/sum(alld$list == "silent")
+[1] 0.6
+> sum(alld$assessment[alld$list == "read"] == "correct")/sum(alld$list == "read")
+[1] 0.9
+> 
