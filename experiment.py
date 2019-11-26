@@ -18,6 +18,7 @@ def make_test():
 	random.shuffle(test_list)
 
 partName = input('Input participant codename:')
+gender = input ('What is your gender? (M/F/O/NA)')
 
 win = visual.Window([600, 600],color = 'black', allowGUI = False)
 show = visual.TextStim(win, text = intro1, color = 'white', height = 0.05, pos = (0.5,0.0))
@@ -41,7 +42,7 @@ show = visual.TextStim(win, text = intro2, color = 'white', height = 0.05, pos =
 show.draw()
 win.flip()
 make_test()
-filename = 'results_' + partName + '.csv'
+filename = 'results_' + partName + gender + '.csv'
 f = open(filename,'a+')
 f.write("trial_num,word,origin,assessment\n")
 
